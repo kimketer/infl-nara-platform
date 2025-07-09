@@ -1,0 +1,82 @@
+groups:
+  - name: inflnara-alerts
+    rules:
+      # API 응답 시간 알림
+      - alert: HighAPILatency
+        expr: rate(http_request_duration_seconds_sum[5m]) / rate(http_request_duration_seconds_count[5m]) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "API 응답 시간이 높습니다"
+          description: "{{ $labels.endpoint }}의 평균 응답 시간이 2초를 초과했습니다"
+
+      # 에러율 알림
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "높은 에러율이 발생했습니다"
+          description: "{{ $labels.endpoint }}에서 5xx 에러율이 10%를 초과했습니다"
+
+      # 데이터베이스 연결 수 알림
+      - alert: HighDatabaseConnections
+        expr: pg_stat_database_numbackends > 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "데이터베이스 연결 수가 많습니다"
+          description: "데이터베이스 {{ $labels.datname }}의 연결 수가 15개를 초과했습니다"
+
+      # Redis 메모리 사용량 알림
+      - alert: HighRedisMemoryUsage
+        expr: redis_memory_used_bytes > 500000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Redis 메모리 사용량이 높습니다"
+          description: "Redis 메모리 사용량이 500MB를 초과했습니다"
+
+      # 서비스 다운 알림
+      - alert: ServiceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "서비스가 다운되었습니다"
+          description: "{{ $labels.job }} 서비스가 응답하지 않습니다"
+
+      # 디스크 공간 부족 알림
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "디스크 공간이 부족합니다"
+          description: "{{ $labels.mountpoint }}의 사용 가능한 공간이 10% 미만입니다"
+
+      # CPU 사용률 알림
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU 사용률이 높습니다"
+          description: "{{ $labels.instance }}의 CPU 사용률이 80%를 초과했습니다"
+
+      # 메모리 사용률 알림
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "메모리 사용률이 높습니다"
+          description: "{{ $labels.instance }}의 메모리 사용률이 85%를 초과했습니다" 

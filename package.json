@@ -1,0 +1,30 @@
+{
+  "name": "infl-nara",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:all": "pnpm --filter api dev & pnpm --filter web dev",
+    "lint": "turbo run lint",
+    "lint:all": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "migrate": "pnpm --filter api typeorm migration:run",
+    "migrate:generate": "pnpm --filter api typeorm migration:generate",
+    "migrate:revert": "pnpm --filter api typeorm migration:revert",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.0",
+    "turbo": "^2.5.4",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "swr": "^2.3.4"
+  }
+}
