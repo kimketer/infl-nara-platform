@@ -1,0 +1,41 @@
+# Database
+DATABASE_TYPE=sqlite
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=password
+DATABASE_NAME=infl_nara
+DATABASE_SYNCHRONIZE=true
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-here
+JWT_EXPIRES_IN=7d
+JWT_REFRESH_EXPIRES_IN=30d
+
+# Google Gemini API
+GEMINI_API_KEY=your-gemini-api-key-here
+
+# Tour API
+TOUR_API_KEY=your-tour-api-key-here
+TOUR_API_BASE_URL=https://api.tour.com
+
+# Redis (for caching and sessions)
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+
+# Sentry (error tracking)
+SENTRY_DSN=your-sentry-dsn-here
+
+# Server
+PORT=3005
+NODE_ENV=development
+
+# CORS
+CORS_ORIGIN=http://localhost:3003
+
+# Rate Limiting
+THROTTLE_TTL=60
+THROTTLE_LIMIT=100 
+
+NEXT_PUBLIC_API_URL=http://localhost:3000
